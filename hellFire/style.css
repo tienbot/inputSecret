@@ -1,0 +1,23 @@
+.fire-animation {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50vh;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    /* z-index: 100; */
+    z-index: 1;
+    pointer-events: none; /* Чтобы не мешал взаимодействию с другими элементами */
+}
+
+.fire-animation.active {
+    opacity: 1;
+}
+
+.fire-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}

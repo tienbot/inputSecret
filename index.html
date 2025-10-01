@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Командная консоль</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .command-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            z-index: 10;
+            border: 1px solid black;
+        }
+
+        .command-section h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .input-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .command-input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            border: 1px solid black;
+        }
+
+        .command-input:focus {
+            background: white;
+            transform: translateY(-2px);
+        }
+
+        .command-input::placeholder {
+            color: #999;
+        }
+
+        .execute-btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .execute-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(45deg, #ff5252, #ff3838);
+        }
+
+        .execute-btn:active {
+            transform: translateY(0);
+        }
+
+        .help-text {
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            background: #00ff00;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Стили для fire-animation внизу экрана */
+        .fire-animation {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .fire-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+    </style>
+    <!-- makeSomeMagic -->
+    <script type="module" defer src="./makeSomeMagic/script.js"></script>
+    <link rel="stylesheet" href="./makeSomeMagic/style.css">
+    <!-- hellFire -->
+    <script type="module" defer src="./hellFire/script.js"></script>
+    <link rel="stylesheet" href="./hellFire/style.css">
+    <!-- matrixEffect -->
+    <script type="module" defer src="./matrixEffect/script.js"></script>
+    <link rel="stylesheet" href="./matrixEffect/style.css">
+    
+</head>
+<body>
+    <section class="command-section">
+        <h1>Командная Консоль</h1>
+        
+        <div class="input-container">
+            <input 
+                type="text" 
+                class="command-input" 
+                placeholder="Введите команду..."
+                id="commandInput"
+            >
+        </div>
+        
+    </section>
+    <!-- Контейнер для огня -->
+    <div class="fire-animation" id="fireAnimation">
+        <canvas class="fire-canvas" id="fireCanvas"></canvas>
+    </div>
+    <!-- Контейнер для матрицы -->
+    <div id="matrixOverlay"></div>
+    <!-- Контейнер для салюта -->
+    <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+
+    <script>
+        function executeCommand() {
+            const input = document.getElementById('commandInput');
+            const command = input.value.trim();
+            
+            // Обрабатываем команды
+            switch(command) {
+                case 'hellFire();':
+                    hellFire();
+                    break;
+                case 'matrixEffect();':
+                    matrixEffect();
+                    break;
+                case 'makeSomeMagic();':
+                    makeSomeMagic();
+                    break;
+                default:
+                    if (command) {
+                        console.error(`Ошибка: неизвестная команда "${command}"`);
+                    }
+                    break;
+            }
+            
+            // Очищаем поле ввода
+            input.value = '';
+        }
+
+        // Обработка нажатия Enter
+        document.getElementById('commandInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                executeCommand();
+            }
+        });
+
+        // Фокус на поле ввода при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('commandInput').focus();
+        });
+    </script>
+</body>
+</html>

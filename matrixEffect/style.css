@@ -1,0 +1,26 @@
+/* Контейнер для анимации поверх всего */
+#matrixOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.matrix-symbol {
+    position: absolute;
+    color: #0f0;
+    font-size: 20px;
+    font-weight: bold;
+    user-select: none;
+    text-shadow: 0 0 5px #0f0;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh);
+    }
+}
