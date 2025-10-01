@@ -18,24 +18,36 @@
     
 </head>
 <body>
-    <section class="command-section">
-        <h1>Командная Консоль</h1>
-        <div class="comands">
-            <p>makeSomeMagic();</p>
-            <p>hellFire();</p>
-            <p>matrixEffect();</p>
+    <section class="section-top">
+        <div class="canvas-container">
+        <canvas id="bgCanvas" width="700" height="700"></canvas>
+        <canvas id="fgCanvas" width="700" height="700"></canvas>
+        <div id="completionMessage" class="completion-message">Ты открыл секретную команду <br> hellFire();</div>
         </div>
-        
-        <div class="input-container">
-            <input 
-                type="text" 
-                class="command-input" 
-                placeholder="Введите команду..."
-                id="commandInput"
-            >
-        </div>
-        
+        <p class="instructions">Проведите мышкой/пальцем по надписи JS, чтобы стереть чёрный слой</p>
     </section>
+
+    <section class="section-input">     
+        <div class="command-section">
+            <h1>Командная Консоль</h1>
+            <div class="comands">
+                <p>makeSomeMagic();</p>
+                <p>hellFire();</p>
+                <p>matrixEffect();</p>
+            </div>
+            
+            <div class="input-container">
+                <input 
+                    type="text" 
+                    class="command-input" 
+                    placeholder="Введите команду..."
+                    id="commandInput"
+                >
+            </div>
+            
+        </div>
+    </section>
+
     <!-- Контейнер для огня -->
     <div class="fire-animation" id="fireAnimation">
         <canvas class="fire-canvas" id="fireCanvas"></canvas>
@@ -44,5 +56,181 @@
     <div id="matrixOverlay"></div>
     <!-- Контейнер для салюта -->
     <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+
+
+    <script>
+    const WIDTH = 700;
+    const HEIGHT = 700;
+    const TEXT_J = "J";
+    const TEXT_S = "S";
+    const FONT = "bold 530px Arturito, sans-serif";
+    const VERTICAL_SPACING = 160; // Расстояние между буквами по вертикали
+    const HORIZONTAL_SPACING = -20; // Расстояние между буквами по горизонтали
+
+    const bgCanvas = document.getElementById("bgCanvas");
+    const fgCanvas = document.getElementById("fgCanvas");
+    const bgCtx = bgCanvas.getContext("2d");
+    const fgCtx = fgCanvas.getContext("2d");
+    const completionMessage = document.getElementById("completionMessage");
+
+    // Ждем загрузки шрифта
+    const arturitoFont = new FontFace('Arturito', 'url(./fonts/arturito.ttf)');
+    
+    arturitoFont.load().then((loadedFont) => {
+      document.fonts.add(loadedFont);
+      initializeCanvas();
+    }).catch((error) => {
+      console.error('Ошибка загрузки шрифта:', error);
+      initializeCanvas(); // Все равно инициализируем с fallback шрифтом
+    });
+
+    function initializeCanvas() {
+      // Создаем временный canvas для определения области текста
+      const tempCanvas = document.createElement('canvas');
+      const tempCtx = tempCanvas.getContext('2d');
+      tempCanvas.width = WIDTH;
+      tempCanvas.height = HEIGHT;
+
+      // Маска для определения точной области текста
+      let textMask = null;
+
+      // Функция для измерения ширины текста
+      function getTextWidth(text, ctx) {
+        ctx.font = FONT;
+        return ctx.measureText(text).width;
+      }
+
+      // универсальная функция для отрисовки текста
+      function drawText(ctx, fillStyle) {
+        ctx.clearRect(0, 0, WIDTH, HEIGHT);
+        ctx.fillStyle = fillStyle;
+        ctx.font = FONT;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        
+        // Измеряем ширину букв
+        const jWidth = getTextWidth(TEXT_J, ctx);
+        const sWidth = getTextWidth(TEXT_S, ctx);
+        
+        // Вычисляем позиции для центрирования
+        const totalWidth = jWidth + sWidth + HORIZONTAL_SPACING;
+        const startX = (WIDTH - totalWidth) / 2;
+        
+        // Рисуем букву J
+        const jX = startX + jWidth / 2;
+        const jY = HEIGHT / 2 - VERTICAL_SPACING / 2;
+        ctx.fillText(TEXT_J, jX, jY);
+        
+        // Рисуем букву S
+        const sX = startX + jWidth + HORIZONTAL_SPACING + sWidth / 2;
+        const sY = HEIGHT / 2 + VERTICAL_SPACING / 2;
+        ctx.fillText(TEXT_S, sX, sY);
+      }
+
+      // Создаем маску текста для точной проверки
+      function createTextMask() {
+        tempCtx.clearRect(0, 0, WIDTH, HEIGHT);
+        tempCtx.fillStyle = "#000";
+        tempCtx.font = FONT;
+        tempCtx.textAlign = "center";
+        tempCtx.textBaseline = "middle";
+        
+        // Измеряем ширину букв
+        const jWidth = getTextWidth(TEXT_J, tempCtx);
+        const sWidth = getTextWidth(TEXT_S, tempCtx);
+        
+        // Вычисляем позиции для центрирования
+        const totalWidth = jWidth + sWidth + HORIZONTAL_SPACING;
+        const startX = (WIDTH - totalWidth) / 2;
+        
+        // Рисуем букву J
+        const jX = startX + jWidth / 2;
+        const jY = HEIGHT / 2 - VERTICAL_SPACING / 2;
+        tempCtx.fillText(TEXT_J, jX, jY);
+        
+        // Рисуем букву S
+        const sX = startX + jWidth + HORIZONTAL_SPACING + sWidth / 2;
+        const sY = HEIGHT / 2 + VERTICAL_SPACING / 2;
+        tempCtx.fillText(TEXT_S, sX, sY);
+        
+        const imageData = tempCtx.getImageData(0, 0, WIDTH, HEIGHT);
+        textMask = imageData.data;
+      }
+
+      // проверка, полностью ли стёрта надпись
+      function checkCompletion() {
+        if (!textMask) return false;
+
+        const imageData = fgCtx.getImageData(0, 0, WIDTH, HEIGHT);
+        const pixels = imageData.data;
+
+        // Проверяем только пиксели текста
+        for (let i = 0; i < pixels.length; i += 4) {
+          if (textMask[i + 3] > 128) { 
+            // если хотя бы один пиксель текста ещё непрозрачный — возвращаем false
+            if (pixels[i + 3] >= 128) {
+              return false;
+            }
+          }
+        }
+
+        // если ВСЕ пиксели текста прозрачные
+        return true;
+      }
+
+      // стираем часть чёрной надписи
+      function erase(x, y) {
+        fgCtx.globalCompositeOperation = "destination-out";
+        fgCtx.beginPath();
+        fgCtx.arc(x, y, 30, 0, Math.PI * 2);
+        fgCtx.fill();
+        fgCtx.globalCompositeOperation = "source-over";
+        
+        // Проверяем завершение после каждого стирания
+        if (checkCompletion() && !completionMessage.classList.contains('show')) {
+          completionMessage.classList.add('show');
+        }
+      }
+
+      // события мыши и касаний
+      let isDrawing = false;
+
+      fgCanvas.addEventListener("mousedown", e => {
+        isDrawing = true;
+        erase(e.offsetX, e.offsetY);
+      });
+
+      fgCanvas.addEventListener("mousemove", e => {
+        if (isDrawing) erase(e.offsetX, e.offsetY);
+      });
+
+      fgCanvas.addEventListener("mouseup", () => isDrawing = false);
+      fgCanvas.addEventListener("mouseleave", () => isDrawing = false);
+
+      fgCanvas.addEventListener("touchstart", e => {
+        e.preventDefault();
+        isDrawing = true;
+        const rect = fgCanvas.getBoundingClientRect();
+        const touch = e.touches[0];
+        erase(touch.clientX - rect.left, touch.clientY - rect.top);
+      });
+
+      fgCanvas.addEventListener("touchmove", e => {
+        e.preventDefault();
+        if (isDrawing) {
+          const rect = fgCanvas.getBoundingClientRect();
+          const touch = e.touches[0];
+          erase(touch.clientX - rect.left, touch.clientY - rect.top);
+        }
+      });
+
+      fgCanvas.addEventListener("touchend", () => isDrawing = false);
+
+      // запуск
+      drawText(bgCtx, "#E45319"); // новый цвет фона
+      drawText(fgCtx, "#000");    // чёрная надпись поверх
+      createTextMask(); // создаем маску текста для точной проверки
+    }
+  </script>
 </body>
 </html>
