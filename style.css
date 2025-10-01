@@ -130,6 +130,9 @@ canvas {
     margin-bottom: 30px;
 }
 
+.counter-text{
+    text-align: end;
+}
 
 /* footer */
 footer {
