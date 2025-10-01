@@ -1,0 +1,61 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.command-section {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    width: 100%;
+    max-width: 500px;
+    z-index: 1;
+    border: 1px solid black;
+}
+
+.command-section h1 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 2rem;
+}
+
+.input-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.command-input {
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 1.1rem;
+    outline: none;
+    transition: all 0.3s ease;
+    border: 1px solid black;
+}
+
+.command-input:focus {
+    background: white;
+    transform: translateY(-2px);
+}
+
+.command-input::placeholder {
+    color: #999;
+}
+
+.comands{
+    text-align: center;
+    margin-bottom: 30px;
+}

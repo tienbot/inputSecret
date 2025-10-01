@@ -4,78 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Командная консоль</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-
-        .command-section {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            width: 100%;
-            max-width: 500px;
-            z-index: 1;
-            border: 1px solid black;
-        }
-
-        .command-section h1 {
-            text-align: center;
-            margin-bottom: 10px;
-            font-size: 2rem;
-        }
-
-        .input-container {
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .command-input {
-            width: 100%;
-            padding: 15px 20px;
-            font-size: 1.1rem;
-            outline: none;
-            transition: all 0.3s ease;
-            border: 1px solid black;
-        }
-
-        .command-input:focus {
-            background: white;
-            transform: translateY(-2px);
-        }
-
-        .command-input::placeholder {
-            color: #999;
-        }
-
-        .comands{
-            text-align: center;
-            margin-bottom: 30px;
-        }
-    </style>
+    <link rel="stylesheet" href="./style.css">
+    <script defer src="./script.js"></script>
     <!-- makeSomeMagic -->
-    <script type="module" defer src="./makeSomeMagic/script.js"></script>
     <link rel="stylesheet" href="./makeSomeMagic/style.css">
+    <script type="module" defer src="./makeSomeMagic/script.js"></script>
     <!-- hellFire -->
-    <script type="module" defer src="./hellFire/script.js"></script>
     <link rel="stylesheet" href="./hellFire/style.css">
+    <script type="module" defer src="./hellFire/script.js"></script>
     <!-- matrixEffect -->
-    <script type="module" defer src="./matrixEffect/script.js"></script>
     <link rel="stylesheet" href="./matrixEffect/style.css">
+    <script type="module" defer src="./matrixEffect/script.js"></script>
     
 </head>
 <body>
@@ -105,45 +44,5 @@
     <div id="matrixOverlay"></div>
     <!-- Контейнер для салюта -->
     <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
-
-    <script>
-        function executeCommand() {
-            const input = document.getElementById('commandInput');
-            const command = input.value.trim();
-            
-            // Обрабатываем команды
-            switch(command) {
-                case 'hellFire();':
-                    hellFire();
-                    break;
-                case 'matrixEffect();':
-                    matrixEffect();
-                    break;
-                case 'makeSomeMagic();':
-                    makeSomeMagic();
-                    break;
-                default:
-                    if (command) {
-                        console.error(`Ошибка: неизвестная команда "${command}"`);
-                    }
-                    break;
-            }
-            
-            // Очищаем поле ввода
-            input.value = '';
-        }
-
-        // Обработка нажатия Enter
-        document.getElementById('commandInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                executeCommand();
-            }
-        });
-
-        // Фокус на поле ввода при загрузке
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('commandInput').focus();
-        });
-    </script>
 </body>
 </html>
