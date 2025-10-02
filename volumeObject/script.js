@@ -152,6 +152,7 @@ function showThreeObject() {
         
         // Затемняем контент
         content.classList.add('fixed');
+        // document.body.classList.add('fixedBody');
         
         // Показываем 3D объект
         threeContainer.classList.add('visible');
@@ -174,6 +175,10 @@ function hideThreeObject() {
         
         // Возвращаем нормальный вид контенту
         content.classList.remove('fixed');
+        // document.body.classList.remove('fixedBody');
+        content.scrollIntoView({
+            block: 'center'
+        });
         
         // Скрываем 3D объект
         threeContainer.classList.remove('visible');

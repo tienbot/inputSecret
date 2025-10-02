@@ -14,16 +14,17 @@
 }
 
 .fixed {
-    /* opacity: 0.3; */
-    /* transform: scale(0.95); */
-    /* backdrop-filter: blur(5px); */
-    
     position: fixed;
     top: 0;
     background: white;
     z-index: 20;
     filter: invert(1);
 }
+
+/* .fixedBody {
+    position: fixed;
+    top: -100vh;
+} */
 
 .description {
     font-size: 1.3rem;
