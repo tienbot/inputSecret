@@ -1,0 +1,277 @@
+:root {
+    --accent: #E45319;
+}
+
+body {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+/* Секции сайта */
+.website-section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+    transition: opacity 0.5s ease;
+}
+
+#section1 {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+#section2 {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+}
+
+#section3 {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+}
+
+.section-content {
+    max-width: 800px;
+    text-align: center;
+}
+
+/* h1, h2, h3 {
+    font-family: 'Arturito', Arial, sans-serif;
+    font-weight: 700;
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+} */
+
+.btn {
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: var(--accent);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    background-color: #ff6b35;
+}
+
+/* 3D проект (изначально скрыт) */
+#project3d {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    z-index: 1000;
+    display: none;
+    overflow: hidden;
+}
+
+.close-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Стили для 3D проекта */
+.project-container {
+    --index: calc(1vw + 1vh);
+    --gutter: 30px;
+    --side-small: 26;
+    --side-big: 36;
+    --depth: 4000px;
+    --transition: .75s cubic-bezier(0.075, .5, 0, 1);
+}
+
+.fix-container {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    perspective: 1500px;
+}
+
+.gallery {
+    transform-style: preserve-3d;
+    height: 100%;
+}
+
+.frame {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: var(--transition), opacity .75s ease;
+    will-change: transform;
+    transform-style: preserve-3d;
+}
+
+.frame h2 {
+    text-align: center;
+    font-size: calc(var(--index) * 3.3);
+    color: var(--accent);
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1;
+    font-family: 'Arturito', Arial, sans-serif;
+}
+
+.frame-media {
+    position: relative;
+    height: calc(var(--index) * var(--side-big));
+    width: calc(var(--index) * var(--side-small));
+    background: #000000;
+    border: 2px solid #000000;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.code-header {
+    background: #333;
+    color: white;
+    padding: 10px 15px;
+    font-family: 'Courier New', monospace;
+    font-size: calc(var(--index) * 0.5);
+    border-bottom: 1px solid #555;
+}
+
+.code-content {
+    flex: 1;
+    padding: 15px;
+    background: #1a1a1a;
+    color: #f0f0f0;
+    font-family: 'Courier New', monospace;
+    font-size: calc(var(--index) * 0.45);
+    overflow: auto;
+    line-height: 1.4;
+}
+
+.code-keyword {
+    color: #569cd6;
+}
+
+.code-function {
+    color: #dcdcaa;
+}
+
+.code-string {
+    color: #ce9178;
+}
+
+.code-comment {
+    color: #6a9955;
+}
+
+.code-number {
+    color: #b5cea8;
+}
+
+.code-operator {
+    color: #d4d4d4;
+}
+
+.frame-media_left {
+    right: calc(var(--side-small) / 2 * var(--index) + var(--gutter))
+}
+
+.frame-media_right {
+    left: calc(var(--side-small) / 2 * var(--index) + var(--gutter))
+}
+
+.frame_bg {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.text-right>* {
+    position: relative;
+    left: 18vw;
+}
+
+.text-left>* {
+    position: relative;
+    right: 18vw;
+}
+
+.frame h3 {
+    font-size: calc(var(--index) * 3);
+    color: var(--accent);
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1;
+    font-family: 'Arturito', Arial, sans-serif;
+}
+
+.frame p {
+    max-width: 30vw;
+    margin-top: 3vh;
+    color: #333333;
+    font-size: calc(var(--index) * 0.8);
+    font-family: 'Courier New', monospace;
+    line-height: 1.75;
+}
+
+.code-block {
+    background: #000000;
+    color: #ffffff;
+    padding: 20px;
+    border-left: 3px solid var(--accent);
+    font-family: 'Courier New', monospace;
+    font-size: calc(var(--index) * 0.7);
+    margin-top: 2vh;
+}
+
+.accent-text {
+    color: var(--accent);
+    font-weight: bold;
+}
+
+/* Скрытие скроллбара для 3D проекта */
+#project3d::-webkit-scrollbar {
+    display: none;
+}
+
+#project3d {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

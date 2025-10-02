@@ -280,8 +280,24 @@ canvas {
     margin-bottom: 30px;
 }
 
+.bottom-command{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .counter-text{
     text-align: end;
+}
+
+#deeper{
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 /* ===== END SECTION INPUT ===== */

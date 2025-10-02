@@ -20,6 +20,10 @@
     <!-- volumeObject -->
      <link rel="stylesheet" href="./volumeObject/style.css">
     <script type="module" defer src="./volumeObject/script.js"></script>
+    
+    <!-- zoomSection -->
+    <link rel="stylesheet" href="./zoomSection/style.css">
+    <script type="module" defer src="./zoomSection/script.js"></script>
 
 </head>
 <body>
@@ -53,9 +57,14 @@
                     id="commandInput"
                 >
             </div>
-            <p class="counter-text">
-              <span id="secret-counter"></span>/<span id="total-effects"></span>
-            </p>
+            <div class="bottom-command">
+                <div class="empty">
+                    <!-- <button id="deeper">Погружаемся глубже!</button> -->
+                </div>
+                <p class="counter-text">
+                  <span id="secret-counter"></span>/<span id="total-effects"></span>
+                </p>
+            </div>
         </div>
     </section>
 
@@ -103,6 +112,7 @@
             </div>
         </div>
     </footer>
+    
 
     <!-- Контейнер для огня -->
     <div class="fire-animation" id="fireAnimation">
@@ -115,6 +125,206 @@
     <!-- Контейнер для 3Dобъекта -->
     <div id="threeContainer"></div>
     <div class="object-info" id="objectInfo">Используйте колесо мыши для приближения/отдаления</div>
+
+
+        <!-- 3D проект (изначально скрыт) -->
+    <div id="project3d" class="project-container">
+        <button class="close-btn" id="closeProjectBtn">×</button>
+        <div class="fix-container">
+            <section class="gallery">
+                <div class="frame">
+                    <div class="frame__content">
+                        <h2>JavaScript Universe</h2>
+                    </div>
+                </div>
+
+                <div class="frame">
+                    <div class="frame__content">
+                        <div class="frame-media frame-media_left">
+                            <div class="code-header">array-methods.js</div>
+                            <div class="code-content">
+                                <span class="code-comment">// Работа с массивами</span><br>
+                                <span class="code-keyword">const</span> numbers = [<span class="code-number">1</span>, <span class="code-number">2</span>, <span class="code-number">3</span>, <span class="code-number">4</span>, <span class="code-number">5</span>];<br>
+                                <br>
+                                <span class="code-comment">// Map - преобразование</span><br>
+                                <span class="code-keyword">const</span> doubled = numbers<br>
+                                &nbsp;&nbsp;.<span class="code-function">map</span>(n => n * <span class="code-number">2</span>);<br>
+                                <br>
+                                <span class="code-comment">// Filter - фильтрация</span><br>
+                                <span class="code-keyword">const</span> even = numbers<br>
+                                &nbsp;&nbsp;.<span class="code-function">filter</span>(n => n % <span class="code-number">2</span> === <span class="code-number">0</span>);<br>
+                                <br>
+                                <span class="code-comment">// Reduce - аккумуляция</span><br>
+                                <span class="code-keyword">const</span> sum = numbers<br>
+                                &nbsp;&nbsp;.<span class="code-function">reduce</span>((acc, n) => acc + n, <span class="code-number">0</span>);
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="frame"></div>
+
+                <div class="frame">
+                    <div class="frame__content text-right">
+                        <h3>Digital Architecture</h3>
+                        <p>Building complex systems with elegant code structures that power our modern digital world.
+                        </p>
+                        <div class="code-block">
+                            function createDigitalWorld() {<br>
+                            &nbsp;&nbsp;return <span class="accent-text">innovation</span> + <span
+                                class="accent-text">creativity</span>;<br>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="frame frame_bg">
+                    <div class="frame__content">
+                        <div class="frame-media frame-media_left">
+                            <div class="code-header">async-await.js</div>
+                            <div class="code-content">
+                                <span class="code-comment">// Асинхронные операции</span><br>
+                                <span class="code-keyword">async</span> <span class="code-keyword">function</span> <span class="code-function">fetchUserData</span>() {<br>
+                                &nbsp;&nbsp;<span class="code-keyword">try</span> {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">const</span> response = <span class="code-keyword">await</span> <span class="code-function">fetch</span>(<span class="code-string">'/api/users'</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">const</span> data = <span class="code-keyword">await</span> response.<span class="code-function">json</span>();<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> data;<br>
+                                &nbsp;&nbsp;} <span class="code-keyword">catch</span> (error) {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;console.<span class="code-function">error</span>(<span class="code-string">'Error:'</span>, error);<br>
+                                &nbsp;&nbsp;}<br>
+                                }<br>
+                                <br>
+                                <span class="code-comment">// Использование</span><br>
+                                <span class="code-function">fetchUserData</span>()<br>
+                                &nbsp;&nbsp;.<span class="code-function">then</span>(users => {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;console.<span class="code-function">log</span>(users);<br>
+                                &nbsp;&nbsp;});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="frame"></div>
+
+                <div class="frame frame_bg">
+                    <div class="frame__content">
+                        <div class="frame-media frame-media_right">
+                            <div class="code-header">classes.js</div>
+                            <div class="code-content">
+                                <span class="code-comment">// Классы в JavaScript</span><br>
+                                <span class="code-keyword">class</span> <span class="code-function">Person</span> {<br>
+                                &nbsp;&nbsp;<span class="code-function">constructor</span>(name, age) {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">this</span>.name = name;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">this</span>.age = age;<br>
+                                &nbsp;&nbsp;}<br>
+                                <br>
+                                &nbsp;&nbsp;<span class="code-function">greet</span>() {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> <span class="code-string">`Hello, my name is <span class="code-operator">${</span><span class="code-keyword">this</span>.name<span class="code-operator">}</span>`</span>;<br>
+                                &nbsp;&nbsp;}<br>
+                                <br>
+                                &nbsp;&nbsp;<span class="code-function">getBirthYear</span>() {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> <span class="code-keyword">new</span> <span class="code-function">Date</span>().<span class="code-function">getFullYear</span>() - <span class="code-keyword">this</span>.age;<br>
+                                &nbsp;&nbsp;}<br>
+                                }<br>
+                                <br>
+                                <span class="code-comment">// Наследование</span><br>
+                                <span class="code-keyword">class</span> <span class="code-function">Student</span> <span class="code-keyword">extends</span> Person {<br>
+                                &nbsp;&nbsp;<span class="code-function">constructor</span>(name, age, grade) {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">super</span>(name, age);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">this</span>.grade = grade;<br>
+                                &nbsp;&nbsp;}<br>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="frame"></div>
+
+                <div class="frame">
+                    <div class="frame__content text-left">
+                        <h3>Algorithmic Thinking</h3>
+                        <p>Solving complex problems through logical patterns and efficient computational methods.</p>
+                        <div class="code-block">
+                            while (<span class="accent-text">problem</span>.exists()) {<br>
+                            &nbsp;&nbsp;solution = <span class="accent-text">algorithm</span>.think();<br>
+                            &nbsp;&nbsp;<span class="accent-text">problem</span>.solve(solution);<br>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="frame frame_bg">
+                    <div class="frame__content">
+                        <div class="frame-media frame-media_right">
+                            <div class="code-header">dom-manipulation.js</div>
+                            <div class="code-content">
+                                <span class="code-comment">// Работа с DOM</span><br>
+                                <span class="code-keyword">const</span> button = document<br>
+                                &nbsp;&nbsp;.<span class="code-function">getElementById</span>(<span class="code-string">'myButton'</span>);<br>
+                                <br>
+                                <span class="code-comment">// Обработчик событий</span><br>
+                                button.<span class="code-function">addEventListener</span>(<span class="code-string">'click'</span>, () => {<br>
+                                &nbsp;&nbsp;<span class="code-keyword">const</span> element = document<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;.<span class="code-function">createElement</span>(<span class="code-string">'div'</span>);<br>
+                                &nbsp;&nbsp;element.textContent = <span class="code-string">'New element!'</span>;<br>
+                                &nbsp;&nbsp;document.body.<span class="code-function">appendChild</span>(element);<br>
+                                });<br>
+                                <br>
+                                <span class="code-comment">// Изменение стилей</span><br>
+                                <span class="code-keyword">const</span> changeColor = () => {<br>
+                                &nbsp;&nbsp;document.body.style.backgroundColor = <span class="code-string">'#'</span> + <br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;Math.<span class="code-function">floor</span>(Math.<span class="code-function">random</span>() * <span class="code-number">16777215</span>)<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;.<span class="code-function">toString</span>(<span class="code-number">16</span>);<br>
+                                };
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="frame"></div>
+                <div class="frame"></div>
+
+                <div class="frame frame_bg">
+                    <div class="frame__content">
+                        <div class="frame-media frame-media_right">
+                            <div class="code-header">modules.js</div>
+                            <div class="code-content">
+                                <span class="code-comment">// Экспорт функций</span><br>
+                                <span class="code-keyword">export</span> <span class="code-keyword">function</span> <span class="code-function">calculate</span>(a, b) {<br>
+                                &nbsp;&nbsp;<span class="code-keyword">return</span> a + b;<br>
+                                }<br>
+                                <br>
+                                <span class="code-keyword">export</span> <span class="code-keyword">const</span> PI = <span class="code-number">3.14159</span>;<br>
+                                <br>
+                                <span class="code-keyword">export</span> <span class="code-keyword">default</span> <span class="code-keyword">class</span> <span class="code-function">Calculator</span> {<br>
+                                &nbsp;&nbsp;<span class="code-function">multiply</span>(x, y) {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> x * y;<br>
+                                &nbsp;&nbsp;}<br>
+                                }<br>
+                                <br>
+                                <span class="code-comment">// Импорт в другом файле</span><br>
+                                <span class="code-comment">// import Calculator, { calculate, PI } from './math.js';</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="frame"></div>
+                <div class="frame"></div>
+
+                <div class="frame">
+                    <div class="frame__content">
+                        <div class="code-block">
+                            // <span class="accent-text">Keep coding, keep innovating</span><br>
+                            // <span class="accent-text">The digital frontier awaits</span>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </div>
 
 </body>
 </html>
