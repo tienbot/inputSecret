@@ -21,11 +21,6 @@
     filter: invert(1);
 }
 
-/* .fixedBody {
-    position: fixed;
-    top: -100vh;
-} */
-
 .description {
     font-size: 1.3rem;
     margin-bottom: 2.5rem;

@@ -175,6 +175,7 @@ function topSection(){
 }
 
 function centerSection(){
+    const input = document.getElementById('commandInput');
     let secretCounter = document.querySelector('#secret-counter');
     let counterValue = 0;
     secretCounter.innerHTML = counterValue;
@@ -195,6 +196,7 @@ function centerSection(){
         counterValue++;
         secretCounter.innerHTML = counterValue;
         executedCommands.add(command);
+        input.placeholder = "Введите команду...";
         
         if (counterValue === totalEffectsNumber) {
             console.log('Ебать ты программист!')
@@ -203,30 +205,29 @@ function centerSection(){
     }
 
     function executeCommand() {
-        const input = document.getElementById('commandInput');
         const command = input.value.trim();
         
         // Обрабатываем команды
         switch(command) {
             case 'hellFire();':
-                incrementCount(command); // Счетчик увеличится только при первом вызове
-                hellFire(); // Функция выполняется всегда
+                incrementCount(command);
+                hellFire();
                 break;
             case 'matrixEffect();':
-                incrementCount(command); // Счетчик увеличится только при первом вызове
-                matrixEffect(); // Функция выполняется всегда
+                incrementCount(command);
+                matrixEffect();
                 break;
             case 'makeSomeMagic();':
-                incrementCount(command); // Счетчик увеличится только при первом вызове
-                makeSomeMagic(); // Функция выполняется всегда
+                incrementCount(command);
+                makeSomeMagic();
                 break;
             case 'volumeObject();':
-                incrementCount(command); // Счетчик увеличится только при первом вызове
-                volumeObject(); // Функция выполняется всегда
+                incrementCount(command);
+                volumeObject();
                 break;
             default:
                 if (command) {
-                    console.error(`Ошибка: неизвестная команда "${command}"`);
+                    input.placeholder = "Нет такой команды!";
                 }
                 break;
         }
@@ -236,7 +237,7 @@ function centerSection(){
     }
 
     // Обработка нажатия Enter
-    document.getElementById('commandInput').addEventListener('keypress', function(e) {
+    input.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             executeCommand();
         }
