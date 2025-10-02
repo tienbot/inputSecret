@@ -23,7 +23,7 @@ body {
     position: relative;
 }
 
-/* section top */
+/* ===== SECTION TOP ===== */
 
 .section-top {
     text-align: center;
@@ -75,10 +75,155 @@ canvas {
     opacity: 1;
 }
 
+/* ===== END SECTION TOP ===== */
 
 
+/* ===== SECTION REVOLVER SLIDER ===== */
+:root {
+    --card-w: 300px;
+    --gap: 120px
+}
 
-/* section input */
+.section-revolver {
+    width: 100%;
+    height: 100vh;
+    perspective: 1200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transform-style: preserve-3d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.slide {
+    width: var(--card-w);
+    height: 342px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    font-size: 35px;
+    font-weight: 400;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-style: preserve-3d;
+    pointer-events: auto;
+    user-select: none;
+    touch-action: none;
+    overflow: hidden;
+    transition: transform 420ms cubic-bezier(.2, .9, .26, 1), opacity 420ms;
+}
+
+.slide .inner {
+    padding: 18px;
+    text-align: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 420ms; /* Добавляем плавный переход для прозрачности */
+    border: 1px solid black;
+}
+
+.slide p {
+    margin: 6px 0 0;
+    font-size: 14px;
+    opacity: .9
+}
+
+/* Стили для уголков */
+.corner {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #333;
+    pointer-events: none;
+}
+
+.corner-tl {
+    top: 20px;
+    left: 20px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.corner-tr {
+    top: 20px;
+    right: 20px;
+    border-left: none;
+    border-bottom: none;
+}
+
+.corner-bl {
+    bottom: 20px;
+    left: 20px;
+    border-right: none;
+    border-top: none;
+}
+
+.corner-br {
+    bottom: 20px;
+    right: 20px;
+    border-left: none;
+    border-top: none;
+}
+
+.hint {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 13px;
+    color: #a8b3c7
+}
+
+@media (max-width:600px) {
+    :root {
+    --card-w: 180px;
+    --gap: 90px
+    }
+
+    .section-revolver {
+    height: 360px
+    }
+
+    /* Уменьшаем уголки для мобильных */
+    .corner {
+    width: 12px;
+    height: 12px;
+    }
+
+    .corner-tl,
+    .corner-tr,
+    .corner-bl,
+    .corner-br {
+    top: 15px;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    }
+}
+/* ===== END SECTION REVOLVER SLIDER ===== */
+
+
+/* ===== SECTION INPUT ===== */
 .section-input{
     height: 100vh;
     display: flex;
@@ -139,7 +284,9 @@ canvas {
     text-align: end;
 }
 
-/* footer */
+/* ===== END SECTION INPUT ===== */
+
+/* ===== FOOTER ===== */
 footer {
     height: 100vh;
     width: 100%;
@@ -282,3 +429,5 @@ footer {
         padding: 20px;
     }
 }
+
+/* ===== END FOOTER ===== */

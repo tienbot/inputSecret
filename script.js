@@ -174,6 +174,176 @@ function topSection(){
     }
 }
 
+function revolverSlider(){
+    (function () {
+      const items = Array.from({ length: 16 }, (_, i) => ({
+        title: `Карта ${i + 1}`,
+        text: `Описание ${i + 1}`
+      }));
+
+      const carousel = document.getElementById('carousel');
+      const total = items.length;
+      const nodes = [];
+
+      for (let i = 0; i < total; i++) {
+        const el = document.createElement('div');
+        el.className = 'slide';
+        el.dataset.index = i;
+        el.innerHTML = `
+          <div class="inner">
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-tr"></div>
+            <div class="corner corner-bl"></div>
+            <div class="corner corner-br"></div>
+            <div>${items[i].title}</div>
+            <p>${items[i].text}</p>
+          </div>`;
+        carousel.appendChild(el);
+        nodes.push(el);
+
+        // обработчик клика
+        el.addEventListener('click', () => {
+          // вычисляем offset карточки от текущего центра
+          const baseCenter = Math.floor(center);
+          const offset = relOffset(i, mod(baseCenter, total));
+          center = center + offset; // сдвигаем центр
+          render(true);
+        });
+      }
+
+      const GAP = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--gap')) || 120;
+      const CARD_W = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--card-w')) || 240;
+
+      let center = 0;
+      function mod(n, m) { return ((n % m) + m) % m }
+      function relOffset(i, center) {
+        let raw = i - center;
+        if (raw > total / 2) raw -= total;
+        if (raw <= -total / 2) raw += total;
+        return raw;
+      }
+
+      function renderAt(centerValue, animated = true) {
+        const baseCenter = Math.floor(centerValue);
+        const frac = centerValue - baseCenter;
+
+        nodes.forEach((node, i) => {
+          const offsetInt = relOffset(i, mod(baseCenter, total));
+          const exactOffset = offsetInt - frac;
+
+          const abs = Math.abs(exactOffset);
+          const z = -abs * 120;
+          const x = exactOffset * (CARD_W * 0.6 + GAP * 0.4);
+          // const ry = exactOffset * -14;
+          const ry = 0;
+          const scale = exactOffset === 0 ? 1 : Math.max(0.68, 1 - abs * 0.01);
+
+          // показываем только в пределах 3-х соседей
+          const opacity = abs > 3 ? 0 : 1;
+
+          // НОВЫЙ КОД: Устанавливаем прозрачность для внутреннего контента
+          const innerEl = node.querySelector('.inner');
+          if (innerEl) {
+            if (exactOffset === 0) {
+              // Активная карточка - без прозрачности
+              innerEl.style.opacity = '1';
+            } else if (abs <= 3) {
+              // Боковые карточки - чем дальше, тем более прозрачные
+              // Формула: 1 - (расстояние * 0.25) - чем дальше, тем прозрачнее
+              const innerOpacity = Math.max(0.2, 1 - abs * 0.25);
+              innerEl.style.opacity = innerOpacity.toString();
+            } else {
+              // Карточки за пределами видимости
+              innerEl.style.opacity = '0';
+            }
+          }
+
+          node.style.zIndex = Math.round(100 - abs);
+          node.style.opacity = opacity;
+          node.style.transitionDuration = animated ? '420ms' : '0ms';
+          node.style.transform = `translateX(${x}px) translateZ(${z}px) rotateY(${ry}deg) translateY(-50%) translateX(-50%) scale(${scale})`;
+
+          if (Math.round(exactOffset) === 0) {
+            node.setAttribute('aria-current', 'true');
+            node.classList.add('active');
+          } else {
+            node.removeAttribute('aria-current');
+            node.classList.remove('active');
+          }
+          node.dataset.index = mod(i, total);
+        });
+      }
+
+      function render(animated = true) { renderAt(center, animated); }
+      render(false);
+
+      // свайп
+      let pointer = { down: false, startX: 0, lastX: 0, dx: 0, startTime: 0 };
+      const stage = document.querySelector('.section-revolver');
+      const MIN_SWIPE_DISTANCE_FACTOR = 0.12;
+      const VELOCITY_INFLUENCE = 0.25;
+      const MAX_SHIFT = 5;
+
+      function onPointerDown(e) {
+        pointer.down = true;
+        pointer.startX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+        pointer.lastX = pointer.startX;
+        pointer.dx = 0;
+        pointer.startTime = performance.now();
+        nodes.forEach(n => n.style.transitionDuration = '0ms');
+      }
+
+      function onPointerMove(e) {
+        if (!pointer.down) return;
+        const x = e.clientX || (e.touches && e.touches[0].clientX) || pointer.lastX;
+        pointer.lastX = x;
+        pointer.dx = x - pointer.startX;
+        const deltaIndex = -pointer.dx / (CARD_W + GAP);
+        renderAt(center + deltaIndex, false);
+      }
+
+      function onPointerUp() {
+        if (!pointer.down) return;
+        pointer.down = false;
+        const elapsed = Math.max(1, performance.now() - pointer.startTime);
+        const deltaIndex = -pointer.dx / (CARD_W + GAP);
+        const velIdxPerSec = deltaIndex / (elapsed / 1000);
+
+        const minDist = (CARD_W + GAP) * MIN_SWIPE_DISTANCE_FACTOR;
+        let rawShift = 0;
+        if (Math.abs(pointer.dx) > minDist || Math.abs(velIdxPerSec) > 0.6) {
+          rawShift = deltaIndex + velIdxPerSec * VELOCITY_INFLUENCE;
+        }
+        let shift = Math.round(rawShift);
+        if (shift > MAX_SHIFT) shift = MAX_SHIFT;
+        if (shift < -MAX_SHIFT) shift = -MAX_SHIFT;
+        center = center + shift;
+        render(true);
+      }
+
+      stage.addEventListener('pointerdown', onPointerDown, { passive: true });
+      window.addEventListener('pointermove', onPointerMove, { passive: true });
+      window.addEventListener('pointerup', onPointerUp, { passive: true });
+      window.addEventListener('pointercancel', onPointerUp, { passive: true });
+
+      // стрелки
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') { center = center + 1; render(true); }
+        if (e.key === 'ArrowLeft') { center = center - 1; render(true); }
+      });
+
+      // автопрокрутка
+      let autoId = null;
+      function startAuto() { stopAuto(); autoId = setInterval(() => { center = center + 1; render(true); }, 5000); }
+      function stopAuto() { if (autoId) clearInterval(autoId), autoId = null }
+      stage.addEventListener('mouseenter', stopAuto);
+      stage.addEventListener('mouseleave', startAuto);
+      startAuto();
+
+      window.addEventListener('resize', () => render(false));
+    })();
+}
+
 function centerSection(){
     const input = document.getElementById('commandInput');
     let secretCounter = document.querySelector('#secret-counter');
@@ -333,5 +503,6 @@ function footerSection(){
 
 
 topSection()
+revolverSlider()
 centerSection()
 footerSection()
