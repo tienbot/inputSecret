@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Командная консоль</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <link rel="stylesheet" href="./style.css">
     <script defer src="./script.js"></script>
+
     <!-- makeSomeMagic -->
     <link rel="stylesheet" href="./makeSomeMagic/style.css">
     <script type="module" defer src="./makeSomeMagic/script.js"></script>
@@ -15,6 +17,10 @@
     <!-- matrixEffect -->
     <link rel="stylesheet" href="./matrixEffect/style.css">
     <script type="module" defer src="./matrixEffect/script.js"></script>
+    <!-- volumeObject -->
+     <link rel="stylesheet" href="./volumeObject/style.css">
+    <script type="module" defer src="./volumeObject/script.js"></script>
+
 </head>
 <body>
     <section class="section-top">
@@ -32,6 +38,7 @@
                 <p>makeSomeMagic();</p>
                 <p>hellFire();</p>
                 <p>matrixEffect();</p>
+                <p>volumeObject();</p>
             </div>
             
             <div class="input-container">
@@ -101,5 +108,9 @@
     <div id="matrixOverlay"></div>
     <!-- Контейнер для салюта -->
     <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+    <!-- Контейнер для 3Dобъекта -->
+    <div id="threeContainer"></div>
+    <div class="object-info" id="objectInfo">Используйте колесо мыши для приближения/отдаления</div>
+
 </body>
 </html>

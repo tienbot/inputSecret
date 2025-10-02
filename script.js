@@ -180,7 +180,7 @@ function centerSection(){
     let counterValue = 0;
     secretCounter.innerHTML = counterValue;
     let totalEffects = document.querySelector('#total-effects');
-    let totalEffectsNumber = 3;
+    let totalEffectsNumber = 4;
     totalEffects.innerHTML = totalEffectsNumber;
 
     function incrementCount(){
@@ -208,6 +208,10 @@ function centerSection(){
             case 'makeSomeMagic();':
                 incrementCount();
                 makeSomeMagic();
+                break;
+            case 'volumeObject();':
+                incrementCount();
+                volumeObject();
                 break;
             default:
                 if (command) {
