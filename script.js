@@ -175,7 +175,6 @@ function topSection(){
 }
 
 function centerSection(){
-
     let secretCounter = document.querySelector('#secret-counter');
     let counterValue = 0;
     secretCounter.innerHTML = counterValue;
@@ -183,12 +182,24 @@ function centerSection(){
     let totalEffectsNumber = 4;
     totalEffects.innerHTML = totalEffectsNumber;
 
-    function incrementCount(){
+    // Храним какие команды уже были выполнены (для счетчика)
+    let executedCommands = new Set();
+
+    function incrementCount(command){
+        // Если команда уже выполнялась - не увеличиваем счетчик
+        if (executedCommands.has(command)) {
+            return false;
+        }
+        
+        // Первое выполнение команды - увеличиваем счетчик
         counterValue++;
         secretCounter.innerHTML = counterValue;
+        executedCommands.add(command);
+        
         if (counterValue === totalEffectsNumber) {
             console.log('Ебать ты программист!')
         }
+        return true;
     }
 
     function executeCommand() {
@@ -198,20 +209,20 @@ function centerSection(){
         // Обрабатываем команды
         switch(command) {
             case 'hellFire();':
-                incrementCount();
-                hellFire();
+                incrementCount(command); // Счетчик увеличится только при первом вызове
+                hellFire(); // Функция выполняется всегда
                 break;
             case 'matrixEffect();':
-                incrementCount();
-                matrixEffect();
+                incrementCount(command); // Счетчик увеличится только при первом вызове
+                matrixEffect(); // Функция выполняется всегда
                 break;
             case 'makeSomeMagic();':
-                incrementCount();
-                makeSomeMagic();
+                incrementCount(command); // Счетчик увеличится только при первом вызове
+                makeSomeMagic(); // Функция выполняется всегда
                 break;
             case 'volumeObject();':
-                incrementCount();
-                volumeObject();
+                incrementCount(command); // Счетчик увеличится только при первом вызове
+                volumeObject(); // Функция выполняется всегда
                 break;
             default:
                 if (command) {
